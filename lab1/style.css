@@ -1,0 +1,40 @@
+.d-flex {
+    display: flex !important
+}
+
+.justify-content-center {
+    justify-content: center !important
+}
+
+.align-items-center {
+    align-items: center !important
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    height: 100px;
+    background: yellow;
+    margin-bottom: 1rem;
+}
+
+main {
+    margin-bottom: 1rem;
+}
+
+footer {
+    display: flex;
+    background: #227dc7;
+}
+
+.w-100 {
+    width: 100% !important;
+}
+
+.cart-item {
+    height: 30px;
+    border: 1px solid black;
+}
