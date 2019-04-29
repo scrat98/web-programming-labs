@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
 
-    $posts = DB::table('posts')->get();
+    $posts = DB::table('posts')->orderBy('id', 'DESC')->get();
 
     return view('post-list', [
         'posts' => $posts
