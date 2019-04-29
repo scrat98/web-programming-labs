@@ -41,8 +41,8 @@ async function generateNewPoster(canvas, nextQuoteBtn) {
 async function getRandomImage() {
     console.log("Getting random picture");
     return new Promise(resolve => {
-        const randomWidth = getRandomInt(300, 800);
-        const randomHeight = getRandomInt(200, 900);
+        const randomWidth = getRandomInt(600, 800);
+        const randomHeight = getRandomInt(600, 800);
         const pictureEndpoint = `https://source.unsplash.com/random/${randomWidth}x${randomHeight}`;
         const img = new Image();
         img.onload = () => resolve(img);
