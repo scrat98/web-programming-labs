@@ -23,6 +23,10 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/newPost', function () {
+    return view('new-post-form');
+});
+
 Route::post('api/1.0/posts/create', function (Request $request) {
     $title = $request->post('title');
     $text = $request->post('text');
