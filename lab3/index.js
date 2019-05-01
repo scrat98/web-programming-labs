@@ -1,3 +1,6 @@
+const POST_WIDTH = 800;
+const POST_HEIGHT = 800;
+
 window.onload = () => {
     const container = document.createElement("div");
     container.style.cssText = `
@@ -27,9 +30,8 @@ async function generateNewPoster(canvas, nextQuoteBtn) {
     try {
         console.log("Generating new poster");
         nextQuoteBtn.disabled = true;
-        const img = await getRandomImage();
+        await drawImagesOnCanvas(canvas);
         const quote = await getRandomQuote();
-        drawImageOnCanvas(canvas, img);
         drawQuoteOnCanvas(canvas, quote);
         nextQuoteBtn.disabled = false;
     } catch (e) {
@@ -38,12 +40,10 @@ async function generateNewPoster(canvas, nextQuoteBtn) {
     }
 }
 
-async function getRandomImage() {
+async function getRandomImage(width, height) {
     console.log("Getting random picture");
     return new Promise(resolve => {
-        const randomWidth = getRandomInt(600, 800);
-        const randomHeight = getRandomInt(600, 800);
-        const pictureEndpoint = `https://source.unsplash.com/random/${randomWidth}x${randomHeight}`;
+        const pictureEndpoint = `https://source.unsplash.com/random/${width}x${height}`;
         const img = new Image();
         img.onload = () => resolve(img);
         img.src = pictureEndpoint;
@@ -58,12 +58,23 @@ async function getRandomQuote() {
         .then(json => json.message.toUpperCase());
 }
 
-function drawImageOnCanvas(canvas, img) {
+async function drawImagesOnCanvas(canvas) {
     const ctx = canvas.getContext('2d');
-    canvas.width = img.width;
-    canvas.height = img.height;
+    canvas.width = POST_WIDTH;
+    canvas.height = POST_HEIGHT;
+    const mainRectWidth = getRandomInt(POST_WIDTH / getRandomArbitrary(1, 5), POST_WIDTH / getRandomArbitrary(1, 5));
+    const mainRectHeight = getRandomInt(POST_HEIGHT / getRandomArbitrary(1, 5), POST_HEIGHT / getRandomArbitrary(1, 5));
+
+    const topLeft = await getRandomImage(mainRectWidth, mainRectHeight);
+    const topRight = await getRandomImage(POST_WIDTH - mainRectWidth, mainRectHeight);
+    const bottomLeft = await getRandomImage(mainRectWidth, POST_HEIGHT - mainRectHeight);
+    const bottomRight = await getRandomImage(POST_WIDTH - mainRectWidth, POST_HEIGHT - mainRectHeight);
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(img, 0, 0);
+    ctx.drawImage(topLeft, 0, 0);
+    ctx.drawImage(topRight, mainRectWidth, 0);
+    ctx.drawImage(bottomLeft, 0, mainRectHeight);
+    ctx.drawImage(bottomRight, mainRectWidth, mainRectHeight);
 }
 
 function drawQuoteOnCanvas(canvas, quote) {
